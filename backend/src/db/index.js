@@ -233,6 +233,53 @@ async function initDB() {
       LEFT JOIN police_stations ps ON ps.id = rs.nearest_police_id;
     `);
 
+    // ── Table 6: community_posts ──────────────────────────────────
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS community_posts (
+        id            SERIAL          PRIMARY KEY,
+        clerk_user_id VARCHAR(255)    NOT NULL,
+        author_name   VARCHAR(255)    NOT NULL,
+        author_avatar TEXT,
+        content       TEXT            NOT NULL,
+        category      VARCHAR(20)     CHECK (category IN ('general', 'safety-tip', 'incident-alert', 'resource', 'sos-alert'))
+                                      DEFAULT 'general',
+        is_sos        BOOLEAN         DEFAULT false,
+        sos_lat       NUMERIC(10,7),
+        sos_lng       NUMERIC(10,7),
+        sos_address   TEXT,
+        created_at    TIMESTAMP       DEFAULT NOW(),
+        updated_at    TIMESTAMP       DEFAULT NOW()
+      );
+    `);
+
+    // ── Table 7: community_comments ───────────────────────────────
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS community_comments (
+        id            SERIAL          PRIMARY KEY,
+        post_id       INT             NOT NULL REFERENCES community_posts(id) ON DELETE CASCADE,
+        clerk_user_id VARCHAR(255)    NOT NULL,
+        author_name   VARCHAR(255)    NOT NULL,
+        author_avatar TEXT,
+        content       TEXT            NOT NULL,
+        created_at    TIMESTAMP       DEFAULT NOW()
+      );
+    `);
+
+    await client.query(`
+      CREATE INDEX IF NOT EXISTS idx_comments_post_id ON community_comments(post_id);
+    `);
+
+    // ── Table 8: community_likes ──────────────────────────────────
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS community_likes (
+        id            SERIAL          PRIMARY KEY,
+        post_id       INT             NOT NULL REFERENCES community_posts(id) ON DELETE CASCADE,
+        clerk_user_id VARCHAR(255)    NOT NULL,
+        created_at    TIMESTAMP       DEFAULT NOW(),
+        UNIQUE (post_id, clerk_user_id)
+      );
+    `);
+
     console.log('✅ Database initialised — all tables, indexes, triggers & views ready');
   } catch (err) {
     console.error('❌ Database initialisation failed:', err.message);
