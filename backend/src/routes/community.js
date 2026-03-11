@@ -51,7 +51,7 @@ router.post('/posts', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
-// GET /api/community/posts/:id (Post Detail + Comments)
+// GET /api/community/posts/:id
 router.get('/posts/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -91,7 +91,7 @@ router.post('/posts/:id/like', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
-// POST /api/community/sos-alert (Specific SOS trigger)
+// POST /api/community/sos-alert
 router.post('/sos-alert', async (req, res, next) => {
   try {
     const { clerkUserId, authorName, authorAvatar, lat, lng, address } = req.body;
