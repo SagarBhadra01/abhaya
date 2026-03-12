@@ -51,22 +51,186 @@ export default function ContactPage() {
   if (state.succeeded) {
     return (
       <div
-        className="font-outfit animate-fade-in flex flex-col items-center justify-center min-h-[70vh] px-6 text-center"
-        style={{ backgroundColor: 'var(--bg)', color: 'var(--ink)' }}
+        className="font-outfit animate-fade-in"
+        style={{
+          backgroundColor: 'var(--bg)',
+          color: 'var(--ink)',
+          minHeight: '100vh',
+        }}
       >
-        <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-8">
-          <CheckCircle size={48} className="text-green-600" />
-        </div>
-        <h2 className="font-garamond text-5xl font-bold mb-4">Message Received!</h2>
-        <p className="text-muted max-w-md mb-10 leading-relaxed text-lg">
-          Thank you for reaching out. Our team will get back to you within 24–48 hours.
-        </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-10 py-4 bg-[#111110] text-white rounded-2xl font-bold text-[16px] hover:-translate-y-1 hover:shadow-xl transition-all"
+        {/* Dark hero top band — matches main page */}
+        <section
+          className="relative overflow-hidden text-center text-white"
+          style={{
+            backgroundColor: '#111110',
+            paddingTop: '6rem',
+            paddingBottom: '8rem',
+          }}
         >
-          Send Another Message
-        </button>
+          {/* Decorative circles */}
+          <div
+            className="pointer-events-none"
+            style={{
+              position: 'absolute',
+              width: '400px',
+              height: '400px',
+              borderRadius: '50%',
+              border: '1px solid rgba(200,155,60,0.12)',
+              top: '-100px',
+              right: '-100px',
+            }}
+          />
+          <div
+            className="pointer-events-none"
+            style={{
+              position: 'absolute',
+              width: '280px',
+              height: '280px',
+              borderRadius: '50%',
+              border: '1px solid rgba(200,155,60,0.07)',
+              bottom: '-60px',
+              left: '-60px',
+            }}
+          />
+        </section>
+
+        {/* Floating card — pulled up over the hero */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 20,
+            marginTop: '-5rem',
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '0 1.5rem',
+          }}
+        >
+          <div
+            style={{
+              background: 'rgba(255,255,255,0.97)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid rgba(0,0,0,0.06)',
+              borderRadius: '32px',
+              padding: 'clamp(2.5rem, 5vw, 4rem)',
+              boxShadow: '0 16px 64px rgba(0,0,0,0.08)',
+              maxWidth: '560px',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            {/* Animated success icon */}
+            <div
+              style={{
+                width: '96px',
+                height: '96px',
+                margin: '0 auto 2rem',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #d1fae5, #a7f3d0)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 0 0 12px rgba(16,185,129,0.08), 0 0 0 24px rgba(16,185,129,0.04)',
+                animation: 'successPulse 2s ease-in-out infinite',
+              }}
+            >
+              <CheckCircle size={44} color="#059669" strokeWidth={2.5} />
+            </div>
+
+            {/* Badge */}
+            <div
+              className="inline-flex items-center gap-2 font-bold uppercase"
+              style={{
+                background: 'rgba(97,69,13,0.12)',
+                color: '#C89B3C',
+                padding: '0.4rem 1rem',
+                borderRadius: '999px',
+                fontSize: '11px',
+                letterSpacing: '0.18em',
+                marginBottom: '1.25rem',
+              }}
+            >
+              <MessageSquare size={12} fill="currentColor" style={{ opacity: 0.9 }} />
+              Message Sent
+            </div>
+
+            {/* Heading */}
+            <h2
+              className="font-garamond font-semibold"
+              style={{
+                fontSize: 'clamp(2rem, 4vw, 2.75rem)',
+                lineHeight: 1.15,
+                letterSpacing: '-0.02em',
+                marginBottom: '0.75rem',
+                color: '#1a1a1a',
+              }}
+            >
+              Thank you for{' '}
+              <em className="font-serif italic" style={{ color: '#C89B3C' }}>
+                reaching out
+              </em>
+            </h2>
+
+            <p
+              className="font-light"
+              style={{
+                color: 'var(--muted)',
+                fontSize: '15px',
+                lineHeight: 1.75,
+                maxWidth: '380px',
+                margin: '0 auto 2rem',
+              }}
+            >
+              Your message has been received. Our team will get back to you within 24–48 hours.
+            </p>
+
+            {/* Divider */}
+            <div
+              style={{
+                width: '48px',
+                height: '3px',
+                borderRadius: '99px',
+                background: 'linear-gradient(90deg, #C89B3C, #e8c76a)',
+                margin: '0 auto 2rem',
+              }}
+            />
+
+            {/* CTA Button */}
+            <button
+              onClick={() => window.location.reload()}
+              className="inline-flex items-center justify-center gap-2 font-bold"
+              style={{
+                background: 'linear-gradient(135deg, #111110, #2a2a28)',
+                color: '#fff',
+                padding: '1rem 2.5rem',
+                borderRadius: '16px',
+                fontSize: '15px',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '0 14px 36px rgba(0,0,0,0.22)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+              }}
+            >
+              <Send size={15} />
+              Send Another Message
+            </button>
+          </div>
+        </div>
+
+        {/* Keyframe for the pulsing glow */}
+        <style>{`
+          @keyframes successPulse {
+            0%, 100% { box-shadow: 0 0 0 12px rgba(16,185,129,0.08), 0 0 0 24px rgba(16,185,129,0.04); }
+            50% { box-shadow: 0 0 0 16px rgba(16,185,129,0.12), 0 0 0 32px rgba(16,185,129,0.06); }
+          }
+        `}</style>
       </div>
     );
   }
